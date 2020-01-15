@@ -2468,7 +2468,7 @@ void ColladaLoaderPrivate::LoadTransparent(tinyxml2::XMLElement *_elem,
   if (_elem->FirstChildElement("texture"))
   {
     ignwarn << "texture based transparency not supported" << std::endl;
-    _mat->SetTransparency(0.0);
+    //_mat->SetTransparency(0.0);
   }
   else if (_elem->FirstChildElement("color"))
   {
