@@ -6,6 +6,9 @@
    `PixelFormatType` located in `graphics/include/ignition/common/Image.hh`.
     * [Pull request 191](https://bitbucket.org/ignitionrobotics/ign-common/pull-requests/191)
 
+2. Added support for transparency based on texture alpha channel
+    * [Pull request 219](https://bitbucket.org/ignitionrobotics/ign-common/pull-requests/219)
+
 ## Ignition Common 3.x
 
 ## Ignition Common 3.X.X
