@@ -69,8 +69,8 @@ class ignition::common::TrajectoryInfoPrivate
 
 /////////////////////////////////////////////////
 Animation::Animation(const std::string &_name, const double _length,
-    const bool _loop)
-: name(_name), length(_length), loop(_loop)
+    const bool _loop, const bool _interpolateX)
+: name(_name), length(_length), loop(_loop), interpolateX(_interpolateX)
 {
   this->timePos = 0;
   this->build = false;
@@ -125,6 +125,18 @@ void Animation::AddTime(const double _time)
 double Animation::Time() const
 {
   return this->timePos;
+}
+
+/////////////////////////////////////////////////
+bool Animation::InterpolateX() const
+{
+  return this->interpolateX;
+}
+
+/////////////////////////////////////////////////
+void Animation::InterpolateX(const bool _interpolateX)
+{
+  this->interpolateX = _interpolateX;
 }
 
 /////////////////////////////////////////////////
@@ -199,9 +211,9 @@ double Animation::KeyFramesAtTime(double _time, common::KeyFrame **_kf1,
 }
 
 /////////////////////////////////////////////////
-PoseAnimation::PoseAnimation(const std::string &_name,
-    const double _length, const bool _loop)
-: Animation(_name, _length, _loop)
+PoseAnimation::PoseAnimation(const std::string &_name, const double _length,
+    const bool _loop, const bool _interpolateX)
+: Animation(_name, _length, _loop, _interpolateX)
 {
   this->positionSpline = NULL;
   this->rotationSpline = NULL;
