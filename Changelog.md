@@ -6,6 +6,9 @@
    `PixelFormatType` located in `graphics/include/ignition/common/Image.hh`.
     * [Pull request 191](https://bitbucket.org/ignitionrobotics/ign-common/pull-requests/191)
 
+1. Add interpolate\_x property to actor animations
+    * [Pull request 229](https://bitbucket.org/ignitionrobotics/ign-common/pull-request/229)
+
 ## Ignition Common 3.x
 
 ## Ignition Common 3.X.X
