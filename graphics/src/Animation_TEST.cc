@@ -48,7 +48,7 @@ TEST_F(AnimationTest, PoseAnimation)
   {
     common::PoseAnimation anim("interpolatex_test", 1.0, true);
     EXPECT_FALSE(anim.InterpolateX());
-    anim.InterpolateX(true);
+    anim.SetInterpolateX(true);
     EXPECT_TRUE(anim.InterpolateX());
   }
 

@@ -79,7 +79,7 @@ namespace ignition
 
       /// \brief Set the interpolateX value
       /// \param[in] _interpolateX The interpolateX value
-      public: void InterpolateX(const bool _interpolateX);
+      public: void SetInterpolateX(const bool _interpolateX);
 
       /// \brief Return the number of key frames in the animation
       /// \return The number of keyframes

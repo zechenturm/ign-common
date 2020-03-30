@@ -134,7 +134,7 @@ bool Animation::InterpolateX() const
 }
 
 /////////////////////////////////////////////////
-void Animation::InterpolateX(const bool _interpolateX)
+void Animation::SetInterpolateX(const bool _interpolateX)
 {
   this->interpolateX = _interpolateX;
 }
