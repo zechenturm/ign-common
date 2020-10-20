@@ -158,10 +158,13 @@ bool VideoEncoder::Start(const std::string &_format,
       this->dataPtr->bitRate = 590000;
     // 720p (HD)
     else if (_width * _height <= 1280*720)
-      this->dataPtr->bitRate = 920000;
+      this->dataPtr->bitRate = 6e6;
     // >720P(Full HD)
+    else if (_width * _height <= 1920*1080)
+      this->dataPtr->bitRate = 8e6;
+    // >1080P(Full HD)
     else
-      this->dataPtr->bitRate = 2070000;
+      this->dataPtr->bitRate = 1e7;
   }
   else
   {
