@@ -34,7 +34,7 @@ namespace ignition
     {
       /// \brief Constructor
       public: MeshLoader() {
-        std::setlocale(LC_NUMERIC, "C");
+        // std::setlocale(LC_NUMERIC, "C");
       }
 
       /// \brief Destructor
