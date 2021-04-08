@@ -19,6 +19,7 @@
 #include <cstring>
 #include <list>
 #include <map>
+#include <regex>
 #include <string>
 
 #include "ignition/common/Console.hh"
@@ -932,9 +933,19 @@ URI::URI()
 URI::URI(const std::string &_str, bool _hasAuthority)
   : URI()
 {
+  std::string str = _str;
+  if(str.size() > 8)
+  {
+    if (0 == str.compare(0, 7, "http://") ||
+        0 == str.compare(0, 8, "https://"))
+    {
+      str = std::regex_replace(str, std::regex(R"(\\)"), "/");
+    }
+  }
+
   if (_hasAuthority)
     this->dataPtr->authority.emplace(URIAuthority());
-  this->Parse(_str);
+  this->Parse(str);
 }
 
 /////////////////////////////////////////////////
