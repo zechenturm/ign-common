@@ -88,6 +88,9 @@ Skeleton::~Skeleton()
   for (auto &a : this->data->anims)
     delete a;
   this->data->anims.clear();
+
+  delete this->data;
+  this->data = NULL;
 }
 
 //////////////////////////////////////////////////
