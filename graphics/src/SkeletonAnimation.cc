@@ -126,13 +126,28 @@ math::Matrix4d SkeletonAnimation::NodePoseAt(const std::string &_node,
 std::map<std::string, math::Matrix4d> SkeletonAnimation::PoseAt(
                       const double _time, const bool _loop) const
 {
+  std::map<std::string, math::Matrix4d> pose;
+
+  if (this->data->animations.empty())
+  {
+    return pose;
+  }
+
+  if (this->data->animations.size() > this->data->animations.max_size())
+  {
+    ignerr << "The animations map size is [" << this->data->animations.size()
+           << "], which is larger than the maximum size ["
+           << this->data->animations.max_size() << "], how did this happen?!"
+           << std::endl;
+    return pose;
+  }
+
   ///  TODO need to make sure that all nodes have keyframes at the same
   ///  points in time and create the missing keyframes. if the animation
   ///  comes from bvh this is guaranteed, but if it's comming from collada
   ///  it's not guaranteed. fixing this will help not having to find the
   ///  prev and next keyframe for each node at each time step, but rather
   ///  doing it only once per time step.
-  std::map<std::string, math::Matrix4d> pose;
   for (auto iter = this->data->animations.begin();
       iter != this->data->animations.end(); ++iter)
   {

@@ -332,6 +332,14 @@ SkeletonAnimation *Skeleton::Animation(const unsigned int _i) const
 //////////////////////////////////////////////////
 void Skeleton::AddAnimation(SkeletonAnimation *_anim)
 {
+  if (std::find(this->data->anims.begin(), this->data->anims.end(), _anim)
+      != this->data->anims.end())
+  {
+    ignerr << "Trying to add the same animation to a skeleton twice."
+           << std::endl;
+    return;
+  }
+
   this->data->mapAnimSkin.push_back(std::map<std::string, std::string>());
   this->data->alignTranslate.push_back(std::map<std::string, math::Matrix4d>());
   this->data->alignRotate.push_back(std::map<std::string, math::Matrix4d>());

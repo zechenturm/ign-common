@@ -417,11 +417,15 @@ TrajectoryInfo::TrajectoryInfo(TrajectoryInfo &&_trajInfo) noexcept
 TrajectoryInfo::~TrajectoryInfo()
 {
   delete this->dataPtr;
+  this->dataPtr = nullptr;
 }
 
 //////////////////////////////////////////////////
 void TrajectoryInfo::CopyFrom(const TrajectoryInfo &_trajInfo)
 {
+  if (nullptr == _trajInfo.dataPtr)
+    return;
+
   this->dataPtr->id = _trajInfo.dataPtr->id;
   this->dataPtr->animIndex = _trajInfo.dataPtr->animIndex;
   this->dataPtr->startTime = _trajInfo.dataPtr->startTime;
