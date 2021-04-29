@@ -1996,7 +1996,7 @@ void ColladaLoader::Implementation::LoadPolylist(
   std::vector<ignition::math::Vector3d> verts;
   std::vector<ignition::math::Vector3d> norms;
   std::map<unsigned int, std::vector<ignition::math::Vector2d>> texcoords;
-  std::map<unsigned int, unsigned int> texcoordsOffsetToSet;
+  std::vector<std::pair<unsigned int, unsigned int>> texcoordsOffsetToSet;
 
   const unsigned int VERTEX = 0;
   const unsigned int NORMAL = 1;
@@ -2040,16 +2040,13 @@ void ColladaLoader::Implementation::LoadPolylist(
     else if (semantic == "TEXCOORD")
     {
       int offsetInt = ignition::math::parseInt(offset);
-      if (inputs[TEXCOORD].find(offsetInt) == inputs[TEXCOORD].end())
-      {
-        unsigned int set = 0u;
-        auto setStr = polylistInputXml->Attribute("set");
-        if (setStr)
-          set = ignition::math::parseInt(setStr);
-        this->LoadTexCoords(source, texcoords[set], texDupMap[set]);
-        inputs[TEXCOORD].insert(offsetInt);
-        texcoordsOffsetToSet[offsetInt] = set;
-      }
+      unsigned int set = 0u;
+      auto setStr = polylistInputXml->Attribute("set");
+      if (setStr)
+        set = ignition::math::parseInt(setStr);
+      this->LoadTexCoords(source, texcoords[set], texDupMap[set]);
+      inputs[TEXCOORD].insert(offsetInt);
+      texcoordsOffsetToSet.push_back(std::make_pair(offsetInt, set));
     }
     else
     {
@@ -2168,9 +2165,10 @@ void ColladaLoader::Implementation::LoadPolylist(
               if (!inputs[TEXCOORD].empty())
               {
                 texEqual = true;
-                for (auto offset : inputs[TEXCOORD])
+                for (auto pair: texcoordsOffsetToSet)
                 {
-                  int set = texcoordsOffsetToSet[offset];
+                  unsigned int offset = pair.first;
+                  unsigned int set = pair.second;
                   // Get the vertex texcoord index value. If the texcoord is a
                   // duplicate then reset the index to the first instance of the
                   // duplicated texcoord
@@ -2252,12 +2250,13 @@ void ColladaLoader::Implementation::LoadPolylist(
 
           if (!inputs[TEXCOORD].empty())
           {
-            for (auto offset : inputs[TEXCOORD])
+            for (auto pair: texcoordsOffsetToSet)
             {
+              unsigned int offset = pair.first;
+              unsigned int set = pair.second;
+
               unsigned int inputRemappedTexcoordIndex =
                 values[offset];
-
-              int set = texcoordsOffsetToSet[offset];
 
               auto &texDupMapSet = texDupMap[set];
               auto texDupMapSetIt = texDupMapSet.find(
@@ -2326,7 +2325,7 @@ void ColladaLoader::Implementation::LoadTriangles(
   std::vector<ignition::math::Vector3d> verts;
   std::vector<ignition::math::Vector3d> norms;
   std::map<unsigned int, std::vector<ignition::math::Vector2d>> texcoords;
-  std::map<unsigned int, unsigned int> texcoordsOffsetToSet;
+  std::vector<std::pair<unsigned int, unsigned int>> texcoordsOffsetToSet;
 
   const unsigned int VERTEX = 0;
   const unsigned int NORMAL = 1;
@@ -2372,16 +2371,13 @@ void ColladaLoader::Implementation::LoadTriangles(
     else if (semantic == "TEXCOORD")
     {
       int offsetInt = ignition::math::parseInt(offset);
-      if (inputs[TEXCOORD].find(offsetInt) == inputs[TEXCOORD].end())
-      {
-        unsigned int set = 0u;
-        auto setStr = trianglesInputXml->Attribute("set");
-        if (setStr)
-          set = ignition::math::parseInt(setStr);
-        this->LoadTexCoords(source, texcoords[set], texDupMap[set]);
-        inputs[TEXCOORD].insert(offsetInt);
-        texcoordsOffsetToSet[offsetInt] = set;
-      }
+      unsigned int set = 0u;
+      auto setStr = trianglesInputXml->Attribute("set");
+      if (setStr)
+        set = ignition::math::parseInt(setStr);
+      this->LoadTexCoords(source, texcoords[set], texDupMap[set]);
+      inputs[TEXCOORD].insert(offsetInt);
+      texcoordsOffsetToSet.push_back(std::make_pair(offsetInt, set));
       hasTexcoords = true;
     }
     else
@@ -2494,14 +2490,16 @@ void ColladaLoader::Implementation::LoadTriangles(
           if (hasTexcoords)
           {
             texEqual = true;
-            for (auto offset : inputs[TEXCOORD])
+            for (auto pair: texcoordsOffsetToSet)
             {
+              unsigned int offset = pair.first;
+              unsigned int set = pair.second;
+
               // Get the vertex texcoord index value. If the texcoord is a
               // duplicate then reset the index to the first instance of the
               // duplicated texcoord
               unsigned int remappedTexcoordIndex =
                   values.at(offset);
-              int set = texcoordsOffsetToSet[offset];
               auto &texDupMapSet = texDupMap[set];
               auto texDupMapSetIt = texDupMapSet.find(remappedTexcoordIndex);
               if (texDupMapSetIt != texDupMapSet.end())
@@ -2576,12 +2574,14 @@ void ColladaLoader::Implementation::LoadTriangles(
       }
       if (hasTexcoords)
       {
-        for (auto offset : inputs[TEXCOORD])
+        for (auto pair: texcoordsOffsetToSet)
         {
+          unsigned int offset = pair.first;
+          unsigned int set = pair.second;
+
           unsigned int inputRemappedTexcoordIndex =
               values.at(offset);
 
-          int set = texcoordsOffsetToSet[offset];
           auto &texDupMapSet = texDupMap[set];
           auto texDupMapSetIt = texDupMapSet.find(inputRemappedTexcoordIndex);
           if (texDupMapSetIt != texDupMapSet.end())
