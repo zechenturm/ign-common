@@ -21,6 +21,9 @@
 
 #include "ignition/common/SpecializedPlugin.hh"
 #include <memory>
+#include <ignition/utils/SuppressWarning.hh>
+
+IGN_UTILS_WARN_IGNORE__DEPRECATED_DECLARATION
 
 // This preprocessor token should only be used by the unittest that is
 // responsible for checking that the specialized routines are being used to
@@ -281,5 +284,5 @@ namespace ignition
     };
   }
 }
-
+IGN_UTILS_WARN_RESUME__DEPRECATED_DECLARATION
 #endif

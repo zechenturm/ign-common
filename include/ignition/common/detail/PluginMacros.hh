@@ -87,7 +87,8 @@ IGN_COMMON_WARN_IGNORE__DELETE_NON_VIRTUAL_DESTRUCTOR \
   /* in this library. The expression */ \
   /* (IGNCOMMONMultiPluginInfo(info, id, size) > 0) will evaluate as true */ \
   /* if `info` has been filled with useful plugin information. */ \
-  extern "C" std::size_t DETAIL_IGN_PLUGIN_VISIBLE IGNCOMMONMultiPluginInfo( \
+  extern "C" std::size_t IGN_DEPRECATED(5) DETAIL_IGN_PLUGIN_VISIBLE \
+      IGNCOMMONMultiPluginInfo( \
       void * * const _outputInfo, \
       const std::size_t _pluginId, \
       const std::size_t _size) \

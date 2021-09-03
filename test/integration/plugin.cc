@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <ignition/utils/SuppressWarning.hh>
 #include "ignition/common/Console.hh"
 #include "ignition/common/Filesystem.hh"
 #include "ignition/common/PluginLoader.hh"
@@ -36,6 +37,7 @@
 #include "DummyPluginsPath.h"
 #include "plugins/DummyPlugins.hh"
 
+IGN_UTILS_WARN_IGNORE__DEPRECATED_DECLARATION
 /////////////////////////////////////////////////
 TEST(PluginLoader, LoadBadPlugins)
 {
@@ -442,3 +444,5 @@ int main(int argc, char **argv)
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
+
+IGN_UTILS_WARN_RESUME__DEPRECATED_DECLARATION

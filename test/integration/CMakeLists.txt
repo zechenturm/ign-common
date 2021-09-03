@@ -14,6 +14,8 @@ endif()
 ign_build_tests(
   TYPE INTEGRATION
   SOURCES ${tests}
+  LIB_DEPS
+    ignition-utils${IGN_UTILS_VER}::ignition-utils${IGN_UTILS_VER}
 )
 
 if(TARGET INTEGRATION_plugin)

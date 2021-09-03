@@ -24,6 +24,9 @@
 #include "ignition/common/PluginPtr.hh"
 #include "ignition/common/TemplateHelpers.hh"
 
+#include <ignition/utils/SuppressWarning.hh>
+
+IGN_UTILS_WARN_IGNORE__DEPRECATED_DECLARATION
 namespace ignition
 {
   namespace common
@@ -194,5 +197,6 @@ namespace std
     }
   };
 }
+IGN_UTILS_WARN_RESUME__DEPRECATED_DECLARATION
 
 #endif

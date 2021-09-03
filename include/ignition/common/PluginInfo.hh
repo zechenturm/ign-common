@@ -23,6 +23,8 @@
 #include <string>
 #include <unordered_map>
 
+#include <ignition/common/Export.hh>
+
 namespace ignition
 {
   namespace common
@@ -37,6 +39,8 @@ namespace ignition
     /// \brief Holds info required to construct a plugin
     struct PluginInfo
     {
+      IGN_DEPRECATED(5) PluginInfo() {};
+
       /// \brief The name of the plugin
       std::string name;
 

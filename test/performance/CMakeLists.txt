@@ -11,8 +11,11 @@ link_directories(${PROJECT_BINARY_DIR}/test)
 
 ign_build_tests(
   TYPE PERFORMANCE
-  SOURCES ${tests})
-  
+  SOURCES ${tests}
+  LIB_DEPS
+    ignition-utils${IGN_UTILS_VER}::ignition-utils${IGN_UTILS_VER}
+)
+
 if(TARGET PERFORMANCE_plugin_specialization)
   # We add this dependency to make sure that DummyPlugins gets generated
   # before PERFORMANCE_plugin_specialization so that its auto-generated header is available.
