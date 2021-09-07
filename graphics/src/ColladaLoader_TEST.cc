@@ -489,6 +489,39 @@ TEST_F(ColladaLoader, LoadCylinderAnimatedFrom3dsMax)
 }
 
 /////////////////////////////////////////////////
+TEST_F(ColladaLoader, LoadPlacard)
+{
+  common::ColladaLoader loader;
+  common::Mesh *mesh = loader.Load(
+      common::testing::TestFile("data",
+        "Placard.dae"));
+  ASSERT_TRUE(mesh);
+  EXPECT_EQ(145u, mesh->VertexCount());
+  EXPECT_EQ(145u, mesh->NormalCount());
+  EXPECT_EQ(276u, mesh->IndexCount());
+  EXPECT_EQ(145u, mesh->TexCoordCount());
+  EXPECT_EQ(1u, mesh->SubMeshCount());
+  EXPECT_EQ(1u, mesh->MaterialCount());
+}
+
+/////////////////////////////////////////////////
+TEST_F(ColladaLoader, LoadPlacard_2022)
+{
+  common::ColladaLoader loader;
+  common::Mesh *mesh = loader.Load(
+      common::testing::TestFile("data",
+        "placard_2022.dae"));
+
+  ASSERT_TRUE(mesh);
+  EXPECT_EQ(145u, mesh->VertexCount());
+  EXPECT_EQ(145u, mesh->NormalCount());
+  EXPECT_EQ(276u, mesh->IndexCount());
+  EXPECT_EQ(145u, mesh->TexCoordCount());
+  EXPECT_EQ(1u, mesh->SubMeshCount());
+  EXPECT_EQ(1u, mesh->MaterialCount());
+}
+
+/////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
