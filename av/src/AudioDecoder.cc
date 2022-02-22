@@ -132,8 +132,12 @@ bool AudioDecoder::Decode(uint8_t **_outBuffer, unsigned int *_outBufferSize)
 # pragma GCC diagnostic push
 # pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
-        bytesDecoded = avcodec_decode_audio4(this->data->codecCtx, decodedFrame,
-            &gotFrame, &packet1);
+        // bytesDecoded = avcodec_decode_audio4(this->data->codecCtx, decodedFrame,
+        //     &gotFrame, &packet1);
+        gotFrame = avcodec_send_packet(this->data->codecCtx, &packet1);
+        gotFrame = avcodec_receive_frame(this->data->codecCtx, decodedFrame);
+        bytesDecoded = decodedFrame->pkt_size;
+
 #ifndef _WIN32
 # pragma GCC diagnostic pop
 #endif
