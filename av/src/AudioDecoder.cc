@@ -134,8 +134,9 @@ bool AudioDecoder::Decode(uint8_t **_outBuffer, unsigned int *_outBufferSize)
 #endif
         // bytesDecoded = avcodec_decode_audio4(this->data->codecCtx, decodedFrame,
         //     &gotFrame, &packet1);
-        gotFrame = avcodec_send_packet(this->data->codecCtx, &packet1);
-        gotFrame = avcodec_receive_frame(this->data->codecCtx, decodedFrame);
+        int ret = avcodec_send_packet(this->data->codecCtx, &packet1);
+        ret = avcodec_receive_frame(this->data->codecCtx, decodedFrame);
+        gotFrame = ret == 0 ? 1 : 0;
         bytesDecoded = decodedFrame->pkt_size;
 
 #ifndef _WIN32
@@ -228,7 +229,7 @@ bool AudioDecoder::SetFile(const std::string &_filename)
 # pragma GCC diagnostic push
 # pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
-    if (this->data->formatCtx->streams[i]->codec->codec_type == // NOLINT(*)
+    if (this->data->formatCtx->streams[i]->codecpar->codec_type == // NOLINT(*)
         AVMEDIA_TYPE_AUDIO)
 #ifndef _WIN32
 # pragma GCC diagnostic pop
@@ -253,14 +254,14 @@ bool AudioDecoder::SetFile(const std::string &_filename)
 # pragma GCC diagnostic push
 # pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
-  this->data->codecCtx = this->data->formatCtx->streams[
-    this->data->audioStream]->codec;
+  // this->data->codecCtx = this->data->formatCtx->streams[
+  //   this->data->audioStream]->;
 #ifndef _WIN32
 # pragma GCC diagnostic pop
 #endif
 
   // Find a decoder
-  this->data->codec = avcodec_find_decoder(this->data->codecCtx->codec_id);
+  this->data->codec = const_cast<AVCodec*>(avcodec_find_decoder(this->data->codecCtx->codec_id));
 
   if (this->data->codec == nullptr)
   {
