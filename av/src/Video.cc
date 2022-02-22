@@ -144,7 +144,7 @@ bool Video::Load(const std::string &_filename)
   // Find the decoder for the video stream
   auto stream = this->dataPtr->formatCtx->streams[this->dataPtr->videoStream];
 #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(57, 48, 101)
-  codec = avcodec_find_decoder(stream->codecpar->codec_id);
+  codec = const_cast<AVCodec*>(avcodec_find_decoder(stream->codecpar->codec_id));
 #else
   codec = avcodec_find_decoder(stream->codec->codec_id);
 #endif

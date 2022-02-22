@@ -129,7 +129,7 @@ AVCodec* VideoEncoderPrivate::FindEncoder(AVCodecID _codecId)
   if (this->hwEncoder)
     return this->hwEncoder->FindEncoder(_codecId);
 #endif
-  return avcodec_find_encoder(_codecId);
+  return const_cast<AVCodec*>(avcodec_find_encoder(_codecId));
 }
 
 /////////////////////////////////////////////////
@@ -367,8 +367,8 @@ bool VideoEncoder::Start(
   }
   else
   {
-    AVOutputFormat *outputFormat = av_guess_format(nullptr,
-                                   this->dataPtr->filename.c_str(), nullptr);
+    AVOutputFormat *outputFormat = const_cast<AVOutputFormat*>(av_guess_format(nullptr,
+                                   this->dataPtr->filename.c_str(), nullptr));
 
     if (!outputFormat)
     {
